@@ -78,7 +78,13 @@ app.get("/listings/:id/edit", async (req, res) => {
 
 app.put("/listings/:id", async (req, res) => {
 	let { id } = req.params;
-	await Listing.findByIdAndUpdate(id, { ...req.body.listing });
+	// console.log(req.body);
+	const imageObj = req.body["listing[image"].url;
+
+	await Listing.findByIdAndUpdate(id, {
+		image: { url: imageObj },
+		...req.body.listing,
+	});
 	res.redirect(`/listings/${id}`); // to redirec to the data page insied the titles
 	// res.redirect("/listings");     // to redirct main page
 });
@@ -95,7 +101,7 @@ app.delete("/listings/:id", async (req, res) => {
 // checking connections
 
 app.listen(8080, () => {
-	console.log("Server is listening to the port localhost:8080");
+	console.log("Server is listening to the port http://localhost:8080");
 });
 
 // app.get("/testListing",async (req,res) =>
